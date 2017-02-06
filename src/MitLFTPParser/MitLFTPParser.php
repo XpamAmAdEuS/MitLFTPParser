@@ -29,20 +29,6 @@ class MitLFTPParser
         return $this->parseData($str);
     }
 
-    /**
-     * @param $file
-     * @return array
-     * @throws Exception
-     */
-    public  function parseHeaderfromFile($file)
-    {
-        $str = @fgets(fopen($file, 'r'));
-        if (false === $str) {
-            throw new Exception('Can\'t read file.');
-        }
-
-        return $this->parseHeader($str);
-    }
 
     /**
      * @param $str
@@ -67,21 +53,6 @@ class MitLFTPParser
     }
 
 
-    /**
-     * @param $str
-     * @return array
-     * @throws Exception
-     */
-    public function parseHeader($str)
-    {
-        $data = array();
-        $entry = $this->parseHeaderLine($str);
-        if (null === $entry) {
-            throw new Exception('Not Barix Playlist!!');
-        }
-        $data[] = $entry;
-        return $data;
-    }
 
     /**
      * @param $lineStr
