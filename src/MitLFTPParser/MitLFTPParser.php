@@ -12,6 +12,10 @@
 
 namespace MitLFTPParser;
 
+/**
+ * Class MitLFTPParser
+ * @package MitLFTPParser
+ */
 class MitLFTPParser
 {
     /**
@@ -28,7 +32,6 @@ class MitLFTPParser
 
         return $this->parseData($str);
     }
-
 
     /**
      * @param $str
@@ -52,59 +55,27 @@ class MitLFTPParser
         return $data;
     }
 
-
-
     /**
      * @param $lineStr
      * @param array $linesStr
-     * @return Entry|null
+     * @return LFTPEntry
      */
     protected function parseDataLine($lineStr, array $linesStr)
     {
-        $entry = new Entry();
+        $entry = new LFTPEntry();
         $lineStr = trim($lineStr);
-        if (strtoupper(substr($lineStr, 0, 11)) === '#BARIX-4,,,') {
-            return null;
-        }
-        if (strtoupper(substr($lineStr, 0, 4)) > '#./{') {
-            return null;
-        }
-        if (strtoupper(substr($lineStr, 0, 4)) === '') {
-            return null;
-        }
-        if (strtoupper(substr($lineStr, 0, 4)) === '#./{') {
-            $timeStr = substr($lineStr, 4, 8);
-            $title = substr($lineStr, 17, strrpos($lineStr, '.') -17);
-            $entry->setName($title);
-            $entry->setTime($timeStr);
-        }
+        $pieces = explode(' ',"$lineStr       ");
+        $dateStr = $pieces[0];
+        $timeStr = $pieces[1];
+        $fromStr = $pieces[2];
+        $toStr = $pieces[4];
+        $speedStr = $pieces[6].' /'.$pieces[7];
+        $entry->setDate($dateStr);
+        $entry->setTime($timeStr);
+        $entry->setFromlink($fromStr);
+        $entry->setTolink($toStr);
+        $entry->setSpeed($speedStr);
         return $entry;
-    }
 
-    /**
-     * @param $lineStr
-     * @return Entry|null
-     */
-    protected function parseHeaderLine($lineStr)
-    {
-        $entry = new Entry();
-        $lineStr = trim($lineStr);
-
-        if (strtoupper(substr($lineStr, 0, 11)) === '#BARIX-4,,,') {
-            $day = substr($lineStr, 11, 2);
-            $entry->setDay($day);
-            $starttime = substr($lineStr, 14, 8);
-            $entry->setStarttime($starttime);
-            $endtime = substr($lineStr, 23, 8);
-            $entry->setEndtime($endtime);
-            $volume = substr($lineStr, 34, strrpos($lineStr, ',') -36);
-            $entry->setVolume($volume);
-        }
-
-        if (strtoupper(substr($lineStr, 0, 4)) === '') {
-            return null;
-        }
-
-        return $entry;
     }
 }
