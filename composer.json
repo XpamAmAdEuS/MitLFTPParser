@@ -1,0 +1,19 @@
+{
+    "name": "xpamamadeus/mitlftpparser",
+    "description": "LFTP transfer log parser",
+    "keywords": ["LFTP", "log"],
+    "type": "library",
+    "license": "GPLv3",
+    "authors": [
+        {
+            "name": "XpamAmAdEuS"
+        }
+    ],
+
+    "autoload": {
+        "psr-4": {
+            "MitLFTPParser\\": "src/MitLFTPParser"
+        }
+    }
+
+}
